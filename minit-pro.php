@@ -35,6 +35,7 @@ class Minit_Plugin_Pro {
 			add_action( 'init', array( $instance, 'remove_default_filters' ), 20 );
 
 			add_filter( 'minit-content-css', array( $instance, 'minify_css' ) );
+			add_filter( 'minit-item-js', array( $instance, 'minify_css' ) );
 		}
 
 		return $instance;
@@ -66,6 +67,21 @@ class Minit_Plugin_Pro {
 		$cz = new CSSqueeze;
 
 		$content = $cz->squeeze( $content );
+
+		return $content;
+	}
+
+	public function minify_js( $content ) {
+		include_once 'lib/JSqueeze.php';
+
+		$jz = new JSqueeze;
+
+		$content = $jz->squeeze(
+			$content,
+			true,   // $singleLine
+			false,  // $keepImportantComments
+			false   // $specialVarRx
+		);
 
 		return $content;
 	}
