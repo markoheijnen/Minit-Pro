@@ -35,7 +35,7 @@ class Minit_Plugin_Pro {
 			add_action( 'init', array( $instance, 'remove_default_filters' ), 20 );
 
 			add_filter( 'minit-content-css', array( $instance, 'minify_css' ) );
-			add_filter( 'minit-item-js', array( $instance, 'minify_css' ) );
+			add_filter( 'minit-content-js', array( $instance, 'minify_js' ) );
 		}
 
 		return $instance;
@@ -74,7 +74,7 @@ class Minit_Plugin_Pro {
 	public function minify_js( $content ) {
 		include_once 'lib/JSqueeze.php';
 
-		$jz = new JSqueeze;
+		$jz = new Patchwork\JSqueeze;
 
 		$content = $jz->squeeze(
 			$content,
