@@ -28,8 +28,7 @@ class Minit_Plugin_Pro {
 		if ( 'HTTP/1.1' != $_SERVER['SERVER_PROTOCOL'] && 'HTTP/1.0' != $_SERVER['SERVER_PROTOCOL'] ) {
 			self::disable_minit();
 		}
-
-		if ( defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ) {
+		elseif ( defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ) {
 			self::disable_minit();
 		}
 
