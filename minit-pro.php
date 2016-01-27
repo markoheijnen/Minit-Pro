@@ -31,6 +31,9 @@ class Minit_Plugin_Pro {
 		elseif ( defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ) {
 			self::disable_minit();
 		}
+		else {
+			add_action( 'init', array( $instance, 'remove_default_filters' ), 20 );
+		}
 
 		return $instance;
 
@@ -44,4 +47,15 @@ class Minit_Plugin_Pro {
 		$minit = self::get_minit_instance();
 		remove_action( 'init', array( $minit, 'init' ) );
 	}
+
+	public function remove_default_filters() {
+		remove_filter( 'minit-item-css', 'minit_comment_combined', 15, 3 );
+		remove_filter( 'minit-item-js', 'minit_comment_combined', 15, 3 );
+
+		remove_filter( 'minit-content-css', 'minit_add_toc', 100, 2 );
+		remove_filter( 'minit-content-js', 'minit_add_toc', 100, 2 );
+
+		remove_filter( 'minit-exclude-js', 'minit_exclude_defaults' );
+	}
+
 }
