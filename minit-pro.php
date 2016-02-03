@@ -63,10 +63,10 @@ class Minit_Plugin_Pro {
 
 
 	public function minify_css( $content ) {
-		include_once 'lib/CSSqueeze.php';
-		$cz = new CSSqueeze;
+		include_once 'lib/cssmin.php';
 
-		$content = $cz->squeeze( $content );
+		$compressor = new CSSmin();
+		$content = $compressor->run($content);
 
 		return $content;
 	}
