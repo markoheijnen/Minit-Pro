@@ -9,9 +9,9 @@ Author: Marko Heijnen
 Author URI: https://markoheijnen.com
 */
 
-add_action( 'plugins_loaded', array( 'Minit_Plugin_Pro', 'instance' ), 20 );
+add_action( 'plugins_loaded', array( 'Minit_Pro', 'instance' ), 20 );
 
-class Minit_Plugin_Pro {
+class Minit_Pro {
 
 	protected function __construct() {
 
