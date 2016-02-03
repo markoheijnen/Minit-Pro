@@ -25,11 +25,11 @@ class Minit_Pro {
 			$instance = new self();
 		}
 
-		if ( 'HTTP/1.1' != $_SERVER['SERVER_PROTOCOL'] && 'HTTP/1.0' != $_SERVER['SERVER_PROTOCOL'] ) {
-			self::disable_minit();
+		if ( defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ) {
+			$instance->disable_minit();
 		}
-		elseif ( defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ) {
-			self::disable_minit();
+		elseif ( 'HTTP/1.1' != $_SERVER['SERVER_PROTOCOL'] && 'HTTP/1.0' != $_SERVER['SERVER_PROTOCOL'] ) {
+			$instance->disable_minit();
 		}
 		else {
 			add_action( 'init', array( $instance, 'remove_default_filters' ), 20 );
@@ -42,12 +42,12 @@ class Minit_Pro {
 
 	}
 
-	public static function get_minit_instance() {
+	public function get_minit_instance() {
 		return Minit_Plugin::instance();
 	}
 
-	public static function disable_minit() {
-		$minit = self::get_minit_instance();
+	public function disable_minit() {
+		$minit = $this->get_minit_instance();
 		remove_action( 'init', array( $minit, 'init' ) );
 	}
 
