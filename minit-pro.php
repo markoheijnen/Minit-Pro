@@ -19,6 +19,7 @@ class Minit_Pro {
 		}
 		elseif ( 'HTTP/1.1' != $_SERVER['SERVER_PROTOCOL'] && 'HTTP/1.0' != $_SERVER['SERVER_PROTOCOL'] ) {
 			$this->disable_minit();
+			$this->minify_single_files();
 		}
 		else {
 			add_action( 'init', array( $this, 'remove_default_filters' ), 20 );
@@ -81,6 +82,12 @@ class Minit_Pro {
 		);
 
 		return $content;
+	}
+
+
+	public function minify_single_files() {
+		include 'inc/single-files.php';
+		new Minit_Pro_Single_Files;
 	}
 
 }
