@@ -14,28 +14,25 @@ add_action( 'plugins_loaded', array( 'Minit_Pro', 'instance' ), 20 );
 class Minit_Pro {
 
 	protected function __construct() {
+		if ( defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ) {
+			$this->disable_minit();
+		}
+		elseif ( 'HTTP/1.1' != $_SERVER['SERVER_PROTOCOL'] && 'HTTP/1.0' != $_SERVER['SERVER_PROTOCOL'] ) {
+			$this->disable_minit();
+		}
+		else {
+			add_action( 'init', array( $this, 'remove_default_filters' ), 20 );
 
+			add_filter( 'minit-content-css', array( $this, 'minify_css' ) );
+			add_filter( 'minit-content-js', array( $this, 'minify_js' ) );
+		}
 	}
 
 	public static function instance() {
-
 		static $instance;
 
 		if ( ! $instance ) {
 			$instance = new self();
-		}
-
-		if ( defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ) {
-			$instance->disable_minit();
-		}
-		elseif ( 'HTTP/1.1' != $_SERVER['SERVER_PROTOCOL'] && 'HTTP/1.0' != $_SERVER['SERVER_PROTOCOL'] ) {
-			$instance->disable_minit();
-		}
-		else {
-			add_action( 'init', array( $instance, 'remove_default_filters' ), 20 );
-
-			add_filter( 'minit-content-css', array( $instance, 'minify_css' ) );
-			add_filter( 'minit-content-js', array( $instance, 'minify_js' ) );
 		}
 
 		return $instance;
