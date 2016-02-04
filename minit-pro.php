@@ -14,10 +14,16 @@ add_action( 'plugins_loaded', array( 'Minit_Pro', 'instance' ), 20 );
 class Minit_Pro {
 
 	protected function __construct() {
+		$protocol = $_SERVER['SERVER_PROTOCOL'];
+
+		if ( isset( $_SERVER['HTTP_X_FORWARDED_PROTOCOL'] ) ) {
+			$protocol = $_SERVER['HTTP_X_FORWARDED_PROTOCOL'];
+		}
+
 		if ( defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ) {
 			$this->disable_minit();
 		}
-		elseif ( 'HTTP/1.1' != $_SERVER['SERVER_PROTOCOL'] && 'HTTP/1.0' != $_SERVER['SERVER_PROTOCOL'] ) {
+		elseif ( 'HTTP/1.1' != $protocol && 'HTTP/1.0' != $protocol ) {
 			$this->disable_minit();
 
 			add_action( 'init', array( $this, 'minify_single_files' ) );
