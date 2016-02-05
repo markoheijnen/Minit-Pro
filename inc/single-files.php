@@ -68,6 +68,8 @@ class Minit_Pro_Single_Files {
 
 			file_put_contents( $folder_info['path'] . $file, $data );
 
+			Minit_Pro_GZ::compress( $folder_info['path'] . $file, $data );
+
 			$this->done[ $type ][ $handle ] = $folder_info['url'] . $file;
 		}
 
