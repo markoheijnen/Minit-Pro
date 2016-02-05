@@ -33,8 +33,8 @@ class Minit_Pro {
 		else {
 			add_action( 'init', array( $this, 'remove_default_filters' ), 20 );
 
-			add_filter( 'minit-content-css', array( $this, 'minify_css' ) );
-			add_filter( 'minit-content-js', array( $this, 'minify_js' ) );
+			add_filter( 'minit-content-css', array( $this, 'minify_css' ), 1000 );
+			add_filter( 'minit-content-js', array( $this, 'minify_js' ), 1000 );
 
 			add_filter( 'minit-result-css', array( $this, 'create_gz' ), 1000 );
 			add_filter( 'minit-result-js', array( $this, 'create_gz' ), 1000 );
