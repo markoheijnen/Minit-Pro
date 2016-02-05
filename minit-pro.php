@@ -9,6 +9,8 @@ Author: Marko Heijnen
 Author URI: https://markoheijnen.com
 */
 
+include 'inc/gz.php';
+
 add_action( 'plugins_loaded', array( 'Minit_Pro', 'instance' ), 20 );
 
 class Minit_Pro {
@@ -33,6 +35,9 @@ class Minit_Pro {
 
 			add_filter( 'minit-content-css', array( $this, 'minify_css' ) );
 			add_filter( 'minit-content-js', array( $this, 'minify_js' ) );
+
+			add_filter( 'minit-result-css', array( $this, 'create_gz' ), 1000 );
+			add_filter( 'minit-result-js', array( $this, 'create_gz' ), 1000 );
 		}
 	}
 
@@ -89,6 +94,10 @@ class Minit_Pro {
 		);
 
 		return $content;
+	}
+
+	public function create_gz( $result ) {
+		Minit_Pro_GZ::compress_source( $result['file'] );
 	}
 
 
