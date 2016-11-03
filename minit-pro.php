@@ -93,6 +93,9 @@ class Minit_Pro {
 
 		$jz = new Patchwork\JSqueeze;
 
+		// Remove broken else statements first
+		$content = str_replace( 'else;', '', $content );
+
 		$content = $jz->squeeze(
 			$content,
 			true,   // $singleLine
