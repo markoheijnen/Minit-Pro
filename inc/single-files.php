@@ -63,11 +63,25 @@ class Minit_Pro_Single_Files {
 			}
 
 			$data = file_get_contents( $src_path );
-			if ( 'style' == $type ) {
-				$data = $minit_pro->minify_css( $data );
+
+			if ( strpos( $src, '.min' ) === false ) {
+				if ( 'style' == $type ) {
+					$data = $minit_pro->minify_css( $data );
+				}
+				else {
+					$data = $minit_pro->minify_js( $data );
+				}
 			}
-			else {
-				$data = $minit_pro->minify_js( $data );
+
+			if ( 'style' == $type ) {
+				$relative_path = $src;
+
+				if ( substr( $relative_path, 0, strlen( $_SERVER['DOCUMENT_ROOT'] )) == $_SERVER['DOCUMENT_ROOT'] ) {
+					$relative_path = substr( $relative_path, strlen( $_SERVER['DOCUMENT_ROOT'] ) );
+				} 
+
+				$data = $this->resolve_urls( $data, $relative_path );
+				$data = $this->resolve_imports( $data, $relative_path );
 			}
 
 			file_put_contents( $folder_info['path'] . $file, $data );
@@ -156,5 +170,65 @@ class Minit_Pro_Single_Files {
 		return $full_path;
 	}
 
+
+	private function resolve_urls( $content, $src ) {
+		if ( ! $content ) {
+			return $content;
+		}
+
+		// Make all local asset URLs absolute
+		$content = preg_replace_callback(
+				'/url\(["\' ]?+(?!data:|https?:|\/\/)(.*?)["\' ]?\)/i',
+				function( $matches ) use ($src) {
+					return sprintf(
+						"url('%s')",
+						$this->canonicalize( dirname( $src ) . '/' . $matches[1] )
+					);
+				},
+				$content
+			);
+
+		return $content;
+	}
+
+	private function resolve_imports( $content, $src ) {
+		if ( ! $content ) {
+			return $content;
+		}
+
+		// Make all import asset URLs absolute
+		$content = preg_replace_callback(
+				'/@import\s+(url\()?["\'](?!https?:|\/\/)(.*?)["\'](\)?)/i',
+				function( $matches ) use ($src) {
+					return sprintf(
+						"@import url('%s')",
+						$this->canonicalize( dirname( $src ) . '/' . $matches[1] )
+					);
+				},
+				$content
+			);
+
+		return $content;
+	}
+
+	/**
+	 * Filters out the ../ in URLs
+	 *
+	 * @param string $url A possible ugly URL
+	 *
+	 * @return string A nice looking URL
+	 */
+	protected function canonicalize( $url ) {
+		$url = explode( '/', $url );
+		$keys    = array_keys( $url, '..' );
+
+		foreach ( $keys as $keypos => $key ) {
+			array_splice( $url, $key - ( $keypos * 2 + 1 ), 2 );
+		}
+
+		$url = implode( '/', $url );
+
+		return $url;
+	}
 
 }
