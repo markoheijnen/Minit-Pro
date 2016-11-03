@@ -9,6 +9,10 @@ class Minit_Pro_Single_Files {
 	);
 
 	public function __construct() {
+		if ( is_admin() || is_customize_preview() ) {
+			return;
+		}
+
 		add_filter( 'print_styles_array', array( $this, 'process_styles' ), 1000 );
 		add_filter( 'print_scripts_array', array( $this, 'process_scripts' ), 1000 );
 
