@@ -53,12 +53,19 @@ class Minit_Pro {
 	}
 
 	public function get_minit_instance() {
-		return Minit_Plugin::instance();
+		if ( class_exists('Minit_Plugin') ) {
+			return Minit_Plugin::instance();
+		}
+
+		return false;
 	}
 
 	public function disable_minit() {
 		$minit = $this->get_minit_instance();
-		remove_action( 'init', array( $minit, 'init' ) );
+
+		if ( $minit ) {
+			remove_action( 'init', array( $minit, 'init' ) );
+		}
 	}
 
 	public function remove_default_filters() {
