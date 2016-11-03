@@ -104,7 +104,9 @@ class Minit_Pro {
 	}
 
 	public function create_gz( $result ) {
-		Minit_Pro_GZ::compress_source( $result['file'] );
+		if ( apply_filters( 'minit_pro_create_gz_file', false ) ) {
+			Minit_Pro_GZ::compress_source( $result['file'] );
+		}
 	}
 
 
