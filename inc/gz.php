@@ -7,7 +7,7 @@ class Minit_Pro_GZ {
 		$fp    = gzopen( $source . '.gz', $mode );
 
 		gzwrite( $fp, $data );
-		
+
 		return gzclose( $fp );
 	}
 
@@ -18,28 +18,25 @@ class Minit_Pro_GZ {
 
 		if ( $fp_out = gzopen( $dest, $mode ) ) {
 			if ( $fp_in = fopen( $source, 'rb' ) ) {
-				while ( !feof($fp_in) ) {
+				while ( ! feof( $fp_in ) ) {
 					gzwrite( $fp_out, fread( $fp_in, 1024 * 512 ) );
 				}
 
 				fclose( $fp_in );
-			}
-			else {
+			} else {
 				$error = true;
 			}
 
 			gzclose( $fp_out );
-		}
-		else {
+		} else {
 			$error = true;
 		}
 
 		if ( $error ) {
 			return false;
-		}
-		else {
+		} else {
 			return $dest;
 		}
-	} 
+	}
 
 }

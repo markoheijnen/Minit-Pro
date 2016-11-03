@@ -9,15 +9,13 @@ class Minit_Pro {
 			$protocol = $_SERVER['HTTP_X_FORWARDED_PROTOCOL'];
 		}
 
-		if ( defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ) {
+		if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) {
 			$this->disable_minit();
-		}
-		elseif ( 'HTTP/1.1' != $protocol && 'HTTP/1.0' != $protocol ) {
+		} elseif ( 'HTTP/1.1' != $protocol && 'HTTP/1.0' != $protocol ) {
 			$this->disable_minit();
 
 			add_action( 'init', array( $this, 'minify_single_files' ) );
-		}
-		else {
+		} else {
 			add_action( 'init', array( $this, 'remove_default_filters' ), 20 );
 
 			add_filter( 'minit-content-css', array( $this, 'minify_css' ), 1000 );
@@ -40,7 +38,7 @@ class Minit_Pro {
 	}
 
 	public function get_minit_instance() {
-		if ( class_exists('Minit_Plugin') ) {
+		if ( class_exists( 'Minit_Plugin' ) ) {
 			return Minit_Plugin::instance();
 		}
 
@@ -70,7 +68,7 @@ class Minit_Pro {
 		include_once 'lib/cssmin.php';
 
 		$compressor = new CSSmin();
-		$content = $compressor->run($content);
+		$content = $compressor->run( $content );
 
 		return $content;
 	}

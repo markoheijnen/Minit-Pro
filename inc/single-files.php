@@ -5,7 +5,7 @@ class Minit_Pro_Single_Files {
 
 	private $done = array(
 		'style' => array(),
-		'script'  => array()
+		'script'  => array(),
 	);
 
 	public function __construct() {
@@ -25,7 +25,7 @@ class Minit_Pro_Single_Files {
 		global $wp_styles;
 
 		$this->process( $todo, 'style', 'css', $wp_styles );
-		
+
 		return $todo;
 	}
 
@@ -33,7 +33,7 @@ class Minit_Pro_Single_Files {
 		global $wp_scripts;
 
 		$this->process( $todo, 'script', 'js', $wp_scripts );
-		
+
 		return $todo;
 	}
 
@@ -67,8 +67,7 @@ class Minit_Pro_Single_Files {
 			if ( strpos( $src, '.min' ) === false ) {
 				if ( 'style' == $type ) {
 					$data = $minit_pro->minify_css( $data );
-				}
-				else {
+				} else {
 					$data = $minit_pro->minify_js( $data );
 				}
 			}
@@ -76,9 +75,9 @@ class Minit_Pro_Single_Files {
 			if ( 'style' == $type ) {
 				$relative_path = $src;
 
-				if ( substr( $relative_path, 0, strlen( $_SERVER['DOCUMENT_ROOT'] )) == $_SERVER['DOCUMENT_ROOT'] ) {
+				if ( substr( $relative_path, 0, strlen( $_SERVER['DOCUMENT_ROOT'] ) ) == $_SERVER['DOCUMENT_ROOT'] ) {
 					$relative_path = substr( $relative_path, strlen( $_SERVER['DOCUMENT_ROOT'] ) );
-				} 
+				}
 
 				$data = $this->resolve_urls( $data, $relative_path );
 				$data = $this->resolve_imports( $data, $relative_path );
@@ -91,7 +90,7 @@ class Minit_Pro_Single_Files {
 			}
 
 			$this->done[ $type ][ $handle ] = $folder_info['url'] . $file;
-		}
+		}// End foreach().
 
 		return $todo;
 	}
@@ -120,7 +119,7 @@ class Minit_Pro_Single_Files {
 			$wp_upload_dir = wp_upload_dir();
 			$this->folder  = array(
 				'path' => $wp_upload_dir['basedir'] . '/minit/',
-				'url'  => $wp_upload_dir['baseurl'] . '/minit/'
+				'url'  => $wp_upload_dir['baseurl'] . '/minit/',
 			);
 
 			if ( ! is_dir( $this->folder['path'] ) ) {
@@ -139,11 +138,10 @@ class Minit_Pro_Single_Files {
 	 * @return string|boolean Asset file path or `false` if not found
 	 */
 	protected function get_asset_relative_path( $src ) {
-		//URL in WordPress folder
+		// URL in WordPress folder
 		if ( '/' === $src[0] ) {
 			$full_path = ABSPATH . $src;
-		}
-		else {
+		} else {
 			$full_path = $this->url_to_path( $src );
 		}
 
@@ -178,15 +176,15 @@ class Minit_Pro_Single_Files {
 
 		// Make all local asset URLs absolute
 		$content = preg_replace_callback(
-				'/url\(["\' ]?+(?!data:|https?:|\/\/)(.*?)["\' ]?\)/i',
-				function( $matches ) use ($src) {
+			'/url\(["\' ]?+(?!data:|https?:|\/\/)(.*?)["\' ]?\)/i',
+			function( $matches ) use ( $src ) {
 					return sprintf(
 						"url('%s')",
 						$this->canonicalize( dirname( $src ) . '/' . $matches[1] )
 					);
-				},
-				$content
-			);
+			},
+			$content
+		);
 
 		return $content;
 	}
@@ -198,15 +196,15 @@ class Minit_Pro_Single_Files {
 
 		// Make all import asset URLs absolute
 		$content = preg_replace_callback(
-				'/@import\s+(url\()?["\'](?!https?:|\/\/)(.*?)["\'](\)?)/i',
-				function( $matches ) use ($src) {
+			'/@import\s+(url\()?["\'](?!https?:|\/\/)(.*?)["\'](\)?)/i',
+			function( $matches ) use ( $src ) {
 					return sprintf(
 						"@import url('%s')",
 						$this->canonicalize( dirname( $src ) . '/' . $matches[1] )
 					);
-				},
-				$content
-			);
+			},
+			$content
+		);
 
 		return $content;
 	}
