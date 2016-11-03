@@ -1,8 +1,8 @@
 <?php
 /*
 Plugin Name: Minit PRO
-Plugin URI: 
-GitHub URI: 
+Plugin URI: https://github.com/markoheijnen/Minit-Pro
+GitHub URI: https://github.com/markoheijnen/Minit-Pro
 Description: Add additional functionality to the Minit plugin of Kaspars Dambis.
 Version: 1.0.0
 Author: Marko Heijnen
