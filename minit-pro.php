@@ -9,7 +9,7 @@ Author: Marko Heijnen
 Author URI: https://markoheijnen.com
 */
 
-include dirname( __FILE__ ) . 'imc/minitpro.php';
+include dirname( __FILE__ ) . 'inc/minitpro.php';
 include dirname( __FILE__ ) . 'inc/gz.php';
 
 add_action( 'plugins_loaded', array( 'Minit_Pro', 'instance' ), 20 );
