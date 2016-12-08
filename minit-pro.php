@@ -74,8 +74,6 @@ class Minit_Pro {
 
 		remove_filter( 'minit-content-css', 'minit_add_toc', 100, 2 );
 		remove_filter( 'minit-content-js', 'minit_add_toc', 100, 2 );
-
-		remove_filter( 'minit-exclude-js', 'minit_exclude_defaults' );
 	}
 
 
