@@ -7,6 +7,7 @@ Description: Add additional functionality to the Minit plugin of Kaspars Dambis.
 Version: 1.0.0
 Author: Marko Heijnen
 Author URI: https://markoheijnen.com
+GitHub Plugin URI: markoheijnen/Minit-Pro
 */
 
 include 'inc/gz.php';
