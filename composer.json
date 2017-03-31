@@ -1,0 +1,25 @@
+{
+    "name": "markoheijnen/minit-pro",
+    "description": "A WordPress plugin that adds additional functionality to the Minit plugin of Kaspars Dambis.",
+    "homepage": "https://github.com/markoheijnen/Minit-Pro",
+    "keywords": [
+        "WordPress", "minit", "extra", "plugins", "css", "js", "combine", "minify", "concatenate", "optimization", "performance", "speed"
+    ],
+    "support": {
+        "issues": "https://github.com/markoheijnen/Minit-Pro/issues",
+        "source": "https://github.com/markoheijnen/Minit-Pro"
+    },
+    "license": "GPL-2.0+",
+    "authors": [
+        {
+            "name": "Marko Heijnen",
+            "email": "info@markoheijnen.com",
+            "homepage": "https://markoheijnen.com"
+        }
+    ],
+    "type": "wordpress-plugin",
+    "require": {
+        "php": ">=5.4.0",
+        "composer/installers": "~1.0"
+    }
+}
